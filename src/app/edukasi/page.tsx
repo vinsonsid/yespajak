@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Edukasi Pajak",
   description:
     "Materi edukasi pajak ringkas untuk karyawan, tim finance, dan pemilik UMKM: PPh 21, TER, PPh Final UMKM, PPN, dan istilah pajak penting.",
+  alternates: { canonical: "/edukasi" },
 };
 
 const MATERI = [

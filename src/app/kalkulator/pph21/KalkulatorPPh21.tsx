@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
+import ShareBar from "@/components/ShareBar";
 import {
   BarisHasil,
   Card,
@@ -15,6 +16,7 @@ import {
   hitungPPh21Tahunan,
 } from "@/lib/pajak/pph21";
 import { PTKP, StatusPTKP } from "@/lib/pajak/ter";
+import { bacaParams } from "@/lib/prefill";
 
 const SEMUA_STATUS: StatusPTKP[] = [
   "TK/0",
@@ -69,6 +71,21 @@ export default function KalkulatorPPh21() {
   const [iuranPensiun, setIuranPensiun] = useState(0);
   const [dipotongJanNov, setDipotongJanNov] = useState(0);
 
+  useEffect(() => {
+    bacaParams({
+      mode: (v) => {
+        if (v === "bulanan" || v === "tahunan") setMode(v);
+      },
+      status: (v) => {
+        if ((SEMUA_STATUS as string[]).includes(v)) setStatus(v as StatusPTKP);
+      },
+      bruto: (v) => setBrutoSebulan(Number(v) || 0),
+      brutoSetahun: (v) => setBrutoSetahun(Number(v) || 0),
+      iuran: (v) => setIuranPensiun(Number(v) || 0),
+      dipotong: (v) => setDipotongJanNov(Number(v) || 0),
+    });
+  }, []);
+
   const hasilBulanan = hitungPPh21Bulanan(status, brutoSebulan);
   const hasilTahunan = hitungPPh21Tahunan({
     status,
@@ -86,7 +103,7 @@ export default function KalkulatorPPh21() {
         deskripsi="Hitung potongan PPh Pasal 21 pegawai tetap: potongan bulanan Januari–November memakai Tarif Efektif Rata-rata (TER) sesuai PP 58/2023, dan perhitungan setahun (masa Desember) memakai tarif progresif Pasal 17 UU PPh."
       />
 
-      <div className="mb-6 inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm">
+      <div className="mb-6 inline-flex rounded-xl border border-slate-200 bg-white p-1 shadow-sm print:hidden">
         {(
           [
             ["bulanan", "Bulanan (TER, Jan–Nov)"],
@@ -111,7 +128,7 @@ export default function KalkulatorPPh21() {
 
       {mode === "bulanan" ? (
         <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
+          <Card className="print:hidden">
             <h2 className="mb-4 text-lg font-bold text-slate-900">Data Karyawan</h2>
             <div className="space-y-4">
               <PilihStatus value={status} onChange={setStatus} />
@@ -150,6 +167,7 @@ export default function KalkulatorPPh21() {
                 nilai={Math.max(brutoSebulan - hasilBulanan.pph21, 0)}
               />
             </Card>
+            <ShareBar params={{ mode, status, bruto: brutoSebulan }} />
             <CatatanInfo>
               TER dipakai untuk masa Januari–November. Pada masa Desember,
               pemberi kerja menghitung ulang PPh 21 setahun dengan tarif Pasal
@@ -160,7 +178,7 @@ export default function KalkulatorPPh21() {
         </div>
       ) : (
         <div className="grid gap-6 lg:grid-cols-2">
-          <Card>
+          <Card className="print:hidden">
             <h2 className="mb-4 text-lg font-bold text-slate-900">
               Data Setahun
             </h2>
@@ -247,6 +265,15 @@ export default function KalkulatorPPh21() {
                 </>
               )}
             </Card>
+            <ShareBar
+              params={{
+                mode,
+                status,
+                brutoSetahun,
+                iuran: iuranPensiun,
+                dipotong: dipotongJanNov,
+              }}
+            />
             <CatatanInfo>
               Jika potongan Jan–Nov melebihi PPh setahun, kelebihannya
               dikembalikan kepada karyawan bersama gaji Desember. Perhitungan

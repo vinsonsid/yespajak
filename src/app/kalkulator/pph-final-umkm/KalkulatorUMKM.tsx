@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
+import ShareBar from "@/components/ShareBar";
 import {
   BarisHasil,
   Card,
@@ -16,6 +17,7 @@ import {
   JenisWPUMKM,
   hitungUMKM,
 } from "@/lib/pajak/umkm";
+import { bacaParams } from "@/lib/prefill";
 
 const JENIS_WP: [JenisWPUMKM, string, string][] = [
   [
@@ -39,6 +41,16 @@ export default function KalkulatorUMKM() {
   const [jenis, setJenis] = useState<JenisWPUMKM>("orang-pribadi");
   const [omzet, setOmzet] = useState(0);
 
+  useEffect(() => {
+    bacaParams({
+      jenis: (v) => {
+        if (["orang-pribadi", "pt-perorangan", "badan"].includes(v))
+          setJenis(v as JenisWPUMKM);
+      },
+      omzet: (v) => setOmzet(Number(v) || 0),
+    });
+  }, []);
+
   const hasil = hitungUMKM(jenis, omzet);
 
   return (
@@ -50,7 +62,7 @@ export default function KalkulatorUMKM() {
       />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
+        <Card className="print:hidden">
           <h2 className="mb-4 text-lg font-bold text-slate-900">Data Usaha</h2>
           <div className="space-y-4">
             <div>
@@ -117,6 +129,8 @@ export default function KalkulatorUMKM() {
               nilai={hasil.pphFinal / 12}
             />
           </Card>
+
+          <ShareBar params={{ jenis, omzet }} />
 
           {hasil.melebihiBatas ? (
             <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
+import ShareBar from "@/components/ShareBar";
 import {
   BarisHasil,
   Card,
@@ -11,6 +12,7 @@ import {
 } from "@/components/ui";
 import { formatPersen, formatRupiah } from "@/lib/format";
 import { hitungPPN } from "@/lib/pajak/ppn";
+import { bacaParams } from "@/lib/prefill";
 
 function TombolPilihan<T extends string>({
   label,
@@ -52,6 +54,18 @@ export default function KalkulatorPPN() {
   const [arah, setArah] = useState<"tambah" | "pisah">("tambah");
   const [jenis, setJenis] = useState<"umum" | "mewah">("umum");
 
+  useEffect(() => {
+    bacaParams({
+      nilai: (v) => setNilai(Number(v) || 0),
+      arah: (v) => {
+        if (v === "tambah" || v === "pisah") setArah(v);
+      },
+      jenis: (v) => {
+        if (v === "umum" || v === "mewah") setJenis(v);
+      },
+    });
+  }, []);
+
   const hasil = hitungPPN(nilai, {
     termasukPPN: arah === "pisah",
     barangMewah: jenis === "mewah",
@@ -66,7 +80,7 @@ export default function KalkulatorPPN() {
       />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
+        <Card className="print:hidden">
           <h2 className="mb-4 text-lg font-bold text-slate-900">Data Transaksi</h2>
           <div className="space-y-4">
             <TombolPilihan
@@ -124,6 +138,7 @@ export default function KalkulatorPPN() {
             <BarisHasil label="PPN" nilai={hasil.ppn} tebal />
             <BarisHasil label="Total harga termasuk PPN" nilai={hasil.totalDenganPPN} tebal />
           </Card>
+          <ShareBar params={{ nilai, arah, jenis }} />
           <CatatanInfo>
             Barang mewah = barang yang tergolong objek PPnBM (kendaraan
             bermotor tertentu, hunian mewah, pesawat, kapal pesiar, dll.).

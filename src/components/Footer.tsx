@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-auto border-t border-slate-200 bg-slate-900 text-slate-300">
+    <footer className="mt-auto border-t border-slate-200 bg-slate-900 text-slate-300 print:hidden">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-3">
         <div>
           <p className="text-lg font-extrabold text-white">
@@ -22,6 +22,9 @@ export default function Footer() {
             <li><Link className="hover:text-white" href="/kalkulator/pph-final-umkm">PPh Final UMKM 0,5%</Link></li>
             <li><Link className="hover:text-white" href="/kalkulator/ppn">PPN 11%/12%</Link></li>
             <li><Link className="hover:text-white" href="/kalkulator/pph-badan">PPh Badan</Link></li>
+            <li><Link className="hover:text-white" href="/kalkulator/pph23">PPh 23 / Pasal 4(2)</Link></li>
+            <li><Link className="hover:text-white" href="/kalkulator/umkm-vs-tarif-umum">UMKM vs Tarif Umum</Link></li>
+            <li><Link className="hover:text-white" href="/payroll-pph21">Payroll PPh 21 (massal)</Link></li>
           </ul>
         </div>
         <div>

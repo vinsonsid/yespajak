@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
+import ShareBar from "@/components/ShareBar";
 import {
   BarisHasil,
   Card,
@@ -12,10 +13,18 @@ import {
 } from "@/components/ui";
 import { formatPersen, formatRupiah } from "@/lib/format";
 import { hitungPPhBadan } from "@/lib/pajak/pphBadan";
+import { bacaParams } from "@/lib/prefill";
 
 export default function KalkulatorPPhBadan() {
   const [omzet, setOmzet] = useState(0);
   const [pkp, setPkp] = useState(0);
+
+  useEffect(() => {
+    bacaParams({
+      omzet: (v) => setOmzet(Number(v) || 0),
+      pkp: (v) => setPkp(Number(v) || 0),
+    });
+  }, []);
 
   const hasil = hitungPPhBadan(omzet, pkp);
 
@@ -28,7 +37,7 @@ export default function KalkulatorPPhBadan() {
       />
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
+        <Card className="print:hidden">
           <h2 className="mb-4 text-lg font-bold text-slate-900">Data Perusahaan</h2>
           <div className="space-y-4">
             <RupiahInput
@@ -81,6 +90,7 @@ export default function KalkulatorPPhBadan() {
             <div className="my-2 border-t border-slate-200" />
             <BarisHasil label="Total PPh badan" nilai={hasil.totalPajak} tebal />
           </Card>
+          <ShareBar params={{ omzet, pkp }} />
           <CatatanInfo>
             Badan dengan omzet ≤ Rp4,8 miliar juga dapat memilih PPh Final UMKM
             0,5% dari omzet (selama masih dalam jangka waktu fasilitas) —

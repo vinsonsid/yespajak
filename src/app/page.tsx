@@ -30,6 +30,27 @@ const ALAT = [
       "Hitung PPh badan tarif 22% lengkap dengan fasilitas pengurangan 50% Pasal 31E untuk omzet s.d. Rp50 miliar.",
   },
   {
+    href: "/kalkulator/pph23",
+    emoji: "📄",
+    judul: "Kalkulator PPh 23 & Sewa",
+    deskripsi:
+      "Pemotongan atas jasa, sewa, bunga, royalti, dan hadiah (15%/2%, naik 2× tanpa NPWP), plus PPh final 10% sewa tanah/bangunan.",
+  },
+  {
+    href: "/kalkulator/umkm-vs-tarif-umum",
+    emoji: "⚖️",
+    judul: "UMKM 0,5% vs Tarif Umum",
+    deskripsi:
+      "Alat perencanaan pajak: bandingkan kedua skema berdasarkan margin laba Anda dan temukan titik impasnya sebelum memilih.",
+  },
+  {
+    href: "/payroll-pph21",
+    emoji: "📊",
+    judul: "Payroll PPh 21 Massal",
+    deskripsi:
+      "Tempel data karyawan dari Excel, hitung PPh 21 TER seluruh tim sekaligus, lalu unduh hasilnya sebagai CSV. Data tetap di browser Anda.",
+  },
+  {
     href: "/kalender-pajak",
     emoji: "📅",
     judul: "Kalender Kewajiban Pajak",

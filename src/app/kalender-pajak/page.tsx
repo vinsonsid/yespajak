@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: "Kalender Kewajiban Pajak",
   description:
     "Batas waktu setor dan lapor pajak bulanan serta SPT Tahunan untuk UMKM dan perusahaan Indonesia.",
+  alternates: { canonical: "/kalender-pajak" },
 };
 
 const KEWAJIBAN_BULANAN = [
