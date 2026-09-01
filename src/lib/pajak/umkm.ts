@@ -3,17 +3,18 @@
  *
  * Pokok pengaturan (per 2026):
  *  - Tarif 0,5% dari peredaran bruto, untuk WP dengan omzet ≤ Rp4,8 miliar/tahun.
- *  - WP orang pribadi & PT Perorangan: dapat memakai tarif final tanpa batas waktu.
- *  - Bagian omzet WP orang pribadi s.d. Rp500 juta setahun tidak dikenai PPh.
- *  - Koperasi: maksimal 4 tahun sejak terdaftar. CV/firma/BUMDes: 4 tahun;
- *    PT (selain PT Perorangan): 3 tahun sesuai ketentuan sebelumnya.
+ *  - WP orang pribadi & PT Perorangan: dapat memakai tarif final tanpa batas waktu
+ *    (PP 20/2026). Koperasi: maksimal 4 tahun sejak terdaftar.
+ *  - Bagian omzet s.d. Rp500 juta setahun tidak dikenai PPh — HANYA untuk WP
+ *    orang pribadi. PT Perorangan berstatus WP badan sehingga tidak berhak
+ *    (SE-20/PJ/2022).
  */
 
 export const TARIF_UMKM_PERSEN = 0.5;
 export const BATAS_OMZET_UMKM = 4_800_000_000;
 export const OMZET_BEBAS_OP = 500_000_000;
 
-export type JenisWPUMKM = "orang-pribadi" | "badan";
+export type JenisWPUMKM = "orang-pribadi" | "pt-perorangan" | "badan";
 
 export interface HasilUMKM {
   omzetSetahun: number;

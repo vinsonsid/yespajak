@@ -79,6 +79,8 @@ export interface HasilPPh21Tahunan {
   pphSetahun: number;
   rincian: RincianPasal17[];
   pphMasaDesember?: number;
+  /** Kelebihan potong Jan–Nov yang dikembalikan ke karyawan di bulan Desember. */
+  kelebihanPotong?: number;
 }
 
 /**
@@ -111,7 +113,9 @@ export function hitungPPh21Tahunan(input: InputPPh21Tahunan): HasilPPh21Tahunan 
   };
 
   if (input.pphSudahDipotong !== undefined) {
-    hasil.pphMasaDesember = Math.max(total - input.pphSudahDipotong, 0);
+    const selisih = total - input.pphSudahDipotong;
+    hasil.pphMasaDesember = Math.max(selisih, 0);
+    hasil.kelebihanPotong = Math.max(-selisih, 0);
   }
 
   return hasil;

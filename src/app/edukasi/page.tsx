@@ -103,7 +103,7 @@ export default function Edukasi() {
 
       <div className="mt-10 space-y-8">
         {MATERI.map((m) => (
-          <Card key={m.id} className="scroll-mt-24" >
+          <Card key={m.id}>
             <div id={m.id} className="scroll-mt-24">
               <h2 className="text-xl font-bold text-slate-900">{m.judul}</h2>
               <div className="mt-3 space-y-3">
