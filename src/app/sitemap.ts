@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
+import { BASE_URL as BASE } from "@/lib/site";
 
-const BASE = "https://yespajak.com";
+export const dynamic = "force-static";
 
 const RUTE: { path: string; priority: number }[] = [
   { path: "/", priority: 1 },
