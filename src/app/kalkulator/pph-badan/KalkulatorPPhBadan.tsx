@@ -1,5 +1,6 @@
 "use client";
 
+import type { JSX } from "react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
@@ -15,14 +16,14 @@ import { formatPersen, formatRupiah } from "@/lib/format";
 import { hitungPPhBadan } from "@/lib/pajak/pphBadan";
 import { bacaParams } from "@/lib/prefill";
 
-export default function KalkulatorPPhBadan() {
+export default function KalkulatorPPhBadan(): JSX.Element {
   const [omzet, setOmzet] = useState(0);
   const [pkp, setPkp] = useState(0);
 
   useEffect(() => {
     bacaParams({
-      omzet: (v) => setOmzet(Number(v) || 0),
-      pkp: (v) => setPkp(Number(v) || 0),
+      omzet: (v) => { setOmzet(Number(v) || 0); },
+      pkp: (v) => { setPkp(Number(v) || 0); },
     });
   }, []);
 

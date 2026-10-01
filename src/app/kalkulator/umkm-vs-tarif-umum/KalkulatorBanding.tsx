@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type JSX, useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
 import ShareBar from "@/components/ShareBar";
 import {
@@ -12,12 +12,12 @@ import {
 import { formatPersen, formatRupiah } from "@/lib/format";
 import { bacaParams } from "@/lib/prefill";
 import { bandingkan } from "@/lib/pajak/perbandingan";
-import { BATAS_OMZET_UMKM, JenisWPUMKM } from "@/lib/pajak/umkm";
-import { PTKP, StatusPTKP } from "@/lib/pajak/ter";
+import { BATAS_OMZET_UMKM, type JenisWPUMKM } from "@/core/pajak/umkm";
+import { PTKP, type StatusPTKP } from "@/lib/pajak/ter";
 
 const SEMUA_STATUS = Object.keys(PTKP) as StatusPTKP[];
 
-export default function KalkulatorBanding() {
+export default function KalkulatorBanding(): JSX.Element {
   const [jenis, setJenis] = useState<JenisWPUMKM>("orang-pribadi");
   const [status, setStatus] = useState<StatusPTKP>("TK/0");
   const [omzet, setOmzet] = useState(0);
@@ -32,8 +32,8 @@ export default function KalkulatorBanding() {
       status: (v) => {
         if ((SEMUA_STATUS as string[]).includes(v)) setStatus(v as StatusPTKP);
       },
-      omzet: (v) => setOmzet(Number(v) || 0),
-      margin: (v) => setMargin(Math.min(Math.max(Number(v) || 0, 0), 100)),
+      omzet: (v) => { setOmzet(Math.max(Number(v) || 0, 0)); },
+      margin: (v) => { setMargin(Math.min(Math.max(Number(v) || 0, 0), 100)); },
     });
   }, []);
 
@@ -110,7 +110,7 @@ export default function KalkulatorBanding() {
                   <button
                     key={nilai}
                     type="button"
-                    onClick={() => setJenis(nilai)}
+                    onClick={() => { setJenis(nilai); }}
                     aria-pressed={jenis === nilai}
                     className={`rounded-lg border px-3 py-2.5 text-sm font-semibold transition ${
                       jenis === nilai
@@ -135,7 +135,7 @@ export default function KalkulatorBanding() {
                 <select
                   id="status-banding"
                   value={status}
-                  onChange={(e) => setStatus(e.target.value as StatusPTKP)}
+                  onChange={(e) => { setStatus(e.target.value as StatusPTKP); }}
                   className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base font-semibold text-slate-900 shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
                 >
                   {SEMUA_STATUS.map((s) => (
@@ -168,7 +168,7 @@ export default function KalkulatorBanding() {
                 max={60}
                 step={1}
                 value={margin}
-                onChange={(e) => setMargin(Number(e.target.value))}
+                onChange={(e) => { setMargin(Number(e.target.value)); }}
                 className="mt-2 w-full accent-sky-700"
               />
               <p className="mt-1 text-xs text-slate-500">

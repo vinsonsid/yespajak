@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import type { Metadata } from "next";
 import { Card, CatatanInfo, JudulHalaman } from "@/components/ui";
 
@@ -51,7 +52,7 @@ const KEWAJIBAN_TAHUNAN = [
   },
 ];
 
-export default function KalenderPajak() {
+export default function KalenderPajak(): JSX.Element {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <JudulHalaman

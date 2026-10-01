@@ -1,5 +1,6 @@
 "use client";
 
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
 import ShareBar from "@/components/ShareBar";
@@ -14,13 +15,13 @@ import { formatPersen, formatRupiah } from "@/lib/format";
 import { bacaParams } from "@/lib/prefill";
 import {
   OBJEK_PPH23,
-  ObjekPPh23,
+  type ObjekPPh23,
   hitungPPh23,
 } from "@/lib/pajak/pph23";
 
 const SEMUA_OBJEK = Object.keys(OBJEK_PPH23) as ObjekPPh23[];
 
-export default function KalkulatorPPh23() {
+export default function KalkulatorPPh23(): JSX.Element {
   const [objek, setObjek] = useState<ObjekPPh23>("jasa");
   const [bruto, setBruto] = useState(0);
   const [punyaNPWP, setPunyaNPWP] = useState(true);
@@ -30,8 +31,8 @@ export default function KalkulatorPPh23() {
       objek: (v) => {
         if ((SEMUA_OBJEK as string[]).includes(v)) setObjek(v as ObjekPPh23);
       },
-      bruto: (v) => setBruto(Number(v) || 0),
-      npwp: (v) => setPunyaNPWP(v !== "0"),
+      bruto: (v) => { setBruto(Number(v) || 0); },
+      npwp: (v) => { setPunyaNPWP(v !== "0"); },
     });
   }, []);
 
@@ -61,7 +62,7 @@ export default function KalkulatorPPh23() {
               <select
                 id="objek-pajak"
                 value={objek}
-                onChange={(e) => setObjek(e.target.value as ObjekPPh23)}
+                onChange={(e) => { setObjek(e.target.value as ObjekPPh23); }}
                 className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base font-semibold text-slate-900 shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
               >
                 {SEMUA_OBJEK.map((o) => (
@@ -98,7 +99,7 @@ export default function KalkulatorPPh23() {
                     <button
                       key={String(nilai)}
                       type="button"
-                      onClick={() => setPunyaNPWP(nilai)}
+                      onClick={() => { setPunyaNPWP(nilai); }}
                       aria-pressed={punyaNPWP === nilai}
                       className={`rounded-lg border px-3 py-2.5 text-sm font-semibold transition ${
                         punyaNPWP === nilai

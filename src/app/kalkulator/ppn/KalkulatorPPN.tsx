@@ -1,5 +1,6 @@
 "use client";
 
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
 import ShareBar from "@/components/ShareBar";
@@ -33,7 +34,7 @@ function TombolPilihan<T extends string>({
           <button
             key={v}
             type="button"
-            onClick={() => onChange(v)}
+            onClick={() => { onChange(v); }}
             aria-pressed={nilai === v}
             className={`rounded-lg border px-3 py-2.5 text-sm font-semibold transition ${
               nilai === v
@@ -49,14 +50,14 @@ function TombolPilihan<T extends string>({
   );
 }
 
-export default function KalkulatorPPN() {
+export default function KalkulatorPPN(): JSX.Element {
   const [nilai, setNilai] = useState(0);
   const [arah, setArah] = useState<"tambah" | "pisah">("tambah");
   const [jenis, setJenis] = useState<"umum" | "mewah">("umum");
 
   useEffect(() => {
     bacaParams({
-      nilai: (v) => setNilai(Number(v) || 0),
+      nilai: (v) => { setNilai(Number(v) || 0); },
       arah: (v) => {
         if (v === "tambah" || v === "pisah") setArah(v);
       },

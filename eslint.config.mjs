@@ -1,18 +1,6 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+// Lint: engine base (strict TS + layering) + Next core-web-vitals + test rules.
+import nextConfig from "@jangkar/testing-engines/eslint/next";
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
+const config = [...(await nextConfig()), { ignores: ["out/**", "build/**", "coverage/**", "reports/**"] }];
 
-export default eslintConfig;
+export default config;

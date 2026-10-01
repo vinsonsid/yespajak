@@ -1,5 +1,6 @@
 "use client";
 
+import type { JSX } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -19,7 +20,7 @@ const MENU_LAIN = [
   { href: "/edukasi", label: "Edukasi" },
 ];
 
-export default function Navbar() {
+export default function Navbar(): JSX.Element {
   const pathname = usePathname();
   const [bukaMobile, setBukaMobile] = useState(false);
   const [bukaDropdown, setBukaDropdown] = useState(false);
@@ -37,7 +38,7 @@ export default function Navbar() {
       }
     }
     document.addEventListener("mousedown", tutup);
-    return () => document.removeEventListener("mousedown", tutup);
+    return () => { document.removeEventListener("mousedown", tutup); };
   }, []);
 
   const diKalkulator = pathname.startsWith("/kalkulator");
@@ -58,7 +59,7 @@ export default function Navbar() {
           <div className="relative" ref={dropdownRef}>
             <button
               type="button"
-              onClick={() => setBukaDropdown(!bukaDropdown)}
+              onClick={() => { setBukaDropdown(!bukaDropdown); }}
               aria-expanded={bukaDropdown}
               className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${
                 diKalkulator
@@ -110,7 +111,7 @@ export default function Navbar() {
 
         <button
           type="button"
-          onClick={() => setBukaMobile(!bukaMobile)}
+          onClick={() => { setBukaMobile(!bukaMobile); }}
           className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
           aria-label="Buka menu"
           aria-expanded={bukaMobile}
