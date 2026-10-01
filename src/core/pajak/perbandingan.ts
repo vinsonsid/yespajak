@@ -1,6 +1,6 @@
 import { hitungPasal17 } from "./pph21";
 import { hitungPPhBadan } from "./pphBadan";
-import { hitungUMKM, type JenisWPUMKM } from "../../core/pajak/umkm";
+import { hitungUMKM, type JenisWPUMKM } from "./umkm";
 import { PTKP, type StatusPTKP } from "./ter";
 
 /**

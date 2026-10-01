@@ -11,9 +11,9 @@ import {
 } from "@/components/ui";
 import { formatPersen, formatRupiah } from "@/lib/format";
 import { bacaParams } from "@/lib/prefill";
-import { bandingkan } from "@/lib/pajak/perbandingan";
+import { bandingkan } from "@/core/pajak/perbandingan";
 import { BATAS_OMZET_UMKM, type JenisWPUMKM } from "@/core/pajak/umkm";
-import { PTKP, type StatusPTKP } from "@/lib/pajak/ter";
+import { PTKP, type StatusPTKP } from "@/core/pajak/ter";
 
 const SEMUA_STATUS = Object.keys(PTKP) as StatusPTKP[];
 
