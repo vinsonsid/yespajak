@@ -1,5 +1,6 @@
 "use client";
 
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
 import ShareBar from "@/components/ShareBar";
@@ -15,7 +16,7 @@ import {
   hitungPPh21Bulanan,
   hitungPPh21Tahunan,
 } from "@/lib/pajak/pph21";
-import { PTKP, StatusPTKP } from "@/lib/pajak/ter";
+import { PTKP, type StatusPTKP } from "@/lib/pajak/ter";
 import { bacaParams } from "@/lib/prefill";
 
 const SEMUA_STATUS: StatusPTKP[] = [
@@ -47,7 +48,7 @@ function PilihStatus({
       <select
         id="status-ptkp"
         value={value}
-        onChange={(e) => onChange(e.target.value as StatusPTKP)}
+        onChange={(e) => { onChange(e.target.value as StatusPTKP); }}
         className="mt-1.5 w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-base font-semibold text-slate-900 shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
       >
         {SEMUA_STATUS.map((s) => (
@@ -63,7 +64,7 @@ function PilihStatus({
   );
 }
 
-export default function KalkulatorPPh21() {
+export default function KalkulatorPPh21(): JSX.Element {
   const [mode, setMode] = useState<"bulanan" | "tahunan">("bulanan");
   const [status, setStatus] = useState<StatusPTKP>("TK/0");
   const [brutoSebulan, setBrutoSebulan] = useState(0);
@@ -79,10 +80,10 @@ export default function KalkulatorPPh21() {
       status: (v) => {
         if ((SEMUA_STATUS as string[]).includes(v)) setStatus(v as StatusPTKP);
       },
-      bruto: (v) => setBrutoSebulan(Number(v) || 0),
-      brutoSetahun: (v) => setBrutoSetahun(Number(v) || 0),
-      iuran: (v) => setIuranPensiun(Number(v) || 0),
-      dipotong: (v) => setDipotongJanNov(Number(v) || 0),
+      bruto: (v) => { setBrutoSebulan(Number(v) || 0); },
+      brutoSetahun: (v) => { setBrutoSetahun(Number(v) || 0); },
+      iuran: (v) => { setIuranPensiun(Number(v) || 0); },
+      dipotong: (v) => { setDipotongJanNov(Number(v) || 0); },
     });
   }, []);
 
@@ -113,7 +114,7 @@ export default function KalkulatorPPh21() {
           <button
             key={nilai}
             type="button"
-            onClick={() => setMode(nilai)}
+            onClick={() => { setMode(nilai); }}
             aria-pressed={mode === nilai}
             className={`rounded-lg px-4 py-2 text-sm font-bold transition ${
               mode === nilai
@@ -212,13 +213,13 @@ export default function KalkulatorPPh21() {
             <HasilUtama
               label="PPh 21 terutang setahun"
               nilai={formatRupiah(hasilTahunan.pphSetahun)}
-              keterangan={
-                dipotongJanNov > 0
-                  ? adaKelebihan
-                    ? `Kelebihan potong dikembalikan ke karyawan: ${formatRupiah(hasilTahunan.kelebihanPotong ?? 0)}`
-                    : `Dipotong masa Desember: ${formatRupiah(hasilTahunan.pphMasaDesember ?? 0)}`
-                  : undefined
-              }
+              {...(dipotongJanNov > 0
+                ? {
+                    keterangan: adaKelebihan
+                      ? `Kelebihan potong dikembalikan ke karyawan: ${formatRupiah(hasilTahunan.kelebihanPotong ?? 0)}`
+                      : `Dipotong masa Desember: ${formatRupiah(hasilTahunan.pphMasaDesember ?? 0)}`,
+                  }
+                : {})}
             />
             <Card>
               <BarisHasil label="Penghasilan bruto setahun" nilai={hasilTahunan.brutoSetahun} />

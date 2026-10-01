@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import type { Metadata } from "next";
 import DasarHukum from "@/components/DasarHukum";
 import FAQ from "@/components/FAQ";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/payroll-pph21" },
 };
 
-export default function Page() {
+export default function Page(): JSX.Element {
   return (
     <>
       <PayrollPPh21 />

@@ -1,10 +1,11 @@
 "use client";
 
+import type { JSX } from "react";
 import { useState } from "react";
 import { Card, CatatanInfo, JudulHalaman } from "@/components/ui";
 import { formatPersen, formatRupiah, parseRupiah } from "@/lib/format";
 import { hitungPPh21Bulanan } from "@/lib/pajak/pph21";
-import { StatusPTKP } from "@/lib/pajak/ter";
+import type { StatusPTKP } from "@/lib/pajak/ter";
 
 const STATUS_VALID: StatusPTKP[] = [
   "TK/0",
@@ -47,8 +48,9 @@ function parseInput(teks: string): BarisKaryawan[] {
           error: "Butuh 3 kolom: nama, status PTKP, gaji bruto",
         };
       }
-      const nama = kolom[0];
-      const statusMentah = kolom[1].toUpperCase().replace(/\s/g, "");
+      const nama = kolom[0] ?? "";
+      const statusKolom = kolom[1] ?? "";
+      const statusMentah = statusKolom.toUpperCase().replace(/\s/g, "");
       const status = (STATUS_VALID as string[]).includes(statusMentah)
         ? (statusMentah as StatusPTKP)
         : null;
@@ -59,21 +61,24 @@ function parseInput(teks: string): BarisKaryawan[] {
           nama,
           status: null,
           bruto,
-          error: `Status "${kolom[1]}" tidak dikenal (pakai TK/0–TK/3, K/0–K/3)`,
+          error: `Status "${statusKolom}" tidak dikenal (pakai TK/0–TK/3, K/0–K/3)`,
         };
       }
       return { nomor: i + 1, nama, status, bruto };
     });
 }
 
-export default function PayrollPPh21() {
+export default function PayrollPPh21(): JSX.Element {
   const [teks, setTeks] = useState("");
 
   const barisan = parseInput(teks);
-  const valid = barisan.filter((b) => !b.error && b.status !== null);
+  const valid = barisan.filter(
+    (b): b is BarisKaryawan & { status: StatusPTKP } =>
+      !b.error && b.status !== null,
+  );
   const hasil = valid.map((b) => ({
     ...b,
-    hitung: hitungPPh21Bulanan(b.status as StatusPTKP, b.bruto),
+    hitung: hitungPPh21Bulanan(b.status, b.bruto),
   }));
   const totalBruto = hasil.reduce((a, b) => a + b.bruto, 0);
   const totalPPh = hasil.reduce((a, b) => a + b.hitung.pph21, 0);
@@ -117,7 +122,7 @@ export default function PayrollPPh21() {
           <h2 className="text-lg font-bold text-slate-900">Data Karyawan</h2>
           <button
             type="button"
-            onClick={() => setTeks(CONTOH)}
+            onClick={() => { setTeks(CONTOH); }}
             className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-600 transition hover:border-sky-400 hover:text-sky-800"
           >
             Isi data contoh
@@ -125,7 +130,7 @@ export default function PayrollPPh21() {
         </div>
         <textarea
           value={teks}
-          onChange={(e) => setTeks(e.target.value)}
+          onChange={(e) => { setTeks(e.target.value); }}
           rows={8}
           placeholder={"Tempel dari Excel, satu karyawan per baris:\nAndi Wijaya\tTK/0\t8500000\nBudi Santoso\tK/1\t12000000"}
           className="mt-3 w-full rounded-lg border border-slate-300 bg-white p-3 font-mono text-sm text-slate-900 shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
@@ -167,7 +172,7 @@ export default function PayrollPPh21() {
               </button>
               <button
                 type="button"
-                onClick={() => window.print()}
+                onClick={() => { window.print(); }}
                 className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-400 hover:text-sky-800"
               >
                 🖨️ Cetak / PDF
@@ -191,7 +196,7 @@ export default function PayrollPPh21() {
               <tbody>
                 {hasil.map((b) => (
                   <tr
-                    key={`${b.nomor}-${b.nama}`}
+                    key={`${String(b.nomor)}-${b.nama}`}
                     className="border-b border-slate-100 last:border-0"
                   >
                     <td className="px-4 py-2.5 font-semibold text-slate-800">

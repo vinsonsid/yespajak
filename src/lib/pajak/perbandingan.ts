@@ -1,7 +1,7 @@
 import { hitungPasal17 } from "./pph21";
 import { hitungPPhBadan } from "./pphBadan";
-import { hitungUMKM, JenisWPUMKM } from "./umkm";
-import { PTKP, StatusPTKP } from "./ter";
+import { hitungUMKM, type JenisWPUMKM } from "../../core/pajak/umkm";
+import { PTKP, type StatusPTKP } from "./ter";
 
 /**
  * Perbandingan PPh Final UMKM 0,5% vs tarif umum.
@@ -23,6 +23,12 @@ export interface HasilBanding {
   marginImpasPersen: number | null;
 }
 
+/** Pajak skema final; input tidak valid (mis. dari URL) dianggap tanpa omzet. */
+function pphUMKM(jenis: JenisWPUMKM, omzet: number): number {
+  const r = hitungUMKM(jenis, omzet);
+  return r.ok ? r.value.pphFinal : 0;
+}
+
 function pajakUmumOP(labaBersih: number, status: StatusPTKP): number {
   const pkp = Math.floor(Math.max(labaBersih - PTKP[status], 0) / 1000) * 1000;
   return hitungPasal17(pkp).total;
@@ -39,7 +45,7 @@ export function bandingkan(
   status: StatusPTKP = "TK/0"
 ): HasilBanding {
   const labaBersih = (omzet * marginPersen) / 100;
-  const pajakUMKM = hitungUMKM(jenis, omzet).pphFinal;
+  const pajakUMKM = pphUMKM(jenis, omzet);
   const pajakUmum =
     jenis === "orang-pribadi"
       ? pajakUmumOP(labaBersih, status)
@@ -72,7 +78,7 @@ export function cariMarginImpas(
   status: StatusPTKP = "TK/0"
 ): number | null {
   if (omzet <= 0) return null;
-  const target = hitungUMKM(jenis, omzet).pphFinal;
+  const target = pphUMKM(jenis, omzet);
   const pajakUmumPadaMargin = (m: number) =>
     jenis === "orang-pribadi"
       ? pajakUmumOP((omzet * m) / 100, status)

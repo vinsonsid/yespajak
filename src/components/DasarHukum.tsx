@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 /** Baris kepercayaan: dasar hukum + tanggal verifikasi terakhir kalkulator. */
 export default function DasarHukum({
   peraturan,
@@ -5,7 +6,7 @@ export default function DasarHukum({
 }: {
   peraturan: string[];
   diverifikasi: string; // mis. "1 September 2026"
-}) {
+}): JSX.Element {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
       <p className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-xs leading-relaxed text-slate-500">

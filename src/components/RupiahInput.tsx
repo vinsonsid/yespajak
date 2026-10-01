@@ -1,5 +1,6 @@
 "use client";
 
+import type { JSX } from "react";
 import { formatRupiah, parseRupiah } from "@/lib/format";
 
 interface RupiahInputProps {
@@ -18,7 +19,7 @@ export default function RupiahInput({
   onChange,
   hint,
   placeholder,
-}: RupiahInputProps) {
+}: RupiahInputProps): JSX.Element {
   return (
     <div>
       <label htmlFor={id} className="block text-sm font-semibold text-slate-700">
@@ -35,7 +36,7 @@ export default function RupiahInput({
           autoComplete="off"
           placeholder={placeholder ?? "0"}
           value={value === 0 ? "" : formatRupiah(value, false)}
-          onChange={(e) => onChange(parseRupiah(e.target.value))}
+          onChange={(e) => { onChange(parseRupiah(e.target.value)); }}
           className="w-full rounded-lg border border-slate-300 bg-white py-2.5 pl-10 pr-3 text-right text-base font-semibold text-slate-900 tabular-nums shadow-sm outline-none transition focus:border-sky-500 focus:ring-2 focus:ring-sky-200"
         />
       </div>

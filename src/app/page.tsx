@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import Link from "next/link";
 
 const ALAT = [
@@ -66,7 +67,7 @@ const ALAT = [
   },
 ];
 
-export default function Beranda() {
+export default function Beranda(): JSX.Element {
   return (
     <>
       <section className="bg-sky-950 text-white">
