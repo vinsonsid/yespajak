@@ -4,8 +4,8 @@ import type { JSX } from "react";
 import { useState } from "react";
 import { Card, CatatanInfo, JudulHalaman } from "@/components/ui";
 import { formatPersen, formatRupiah, parseRupiah } from "@/lib/format";
-import { hitungPPh21Bulanan } from "@/lib/pajak/pph21";
-import type { StatusPTKP } from "@/lib/pajak/ter";
+import { hitungPPh21Bulanan } from "@/core/pajak/pph21";
+import type { StatusPTKP } from "@/core/pajak/ter";
 
 const STATUS_VALID: StatusPTKP[] = [
   "TK/0",

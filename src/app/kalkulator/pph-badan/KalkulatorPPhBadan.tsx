@@ -13,7 +13,7 @@ import {
   JudulHalaman,
 } from "@/components/ui";
 import { formatPersen, formatRupiah } from "@/lib/format";
-import { hitungPPhBadan } from "@/lib/pajak/pphBadan";
+import { hitungPPhBadan } from "@/core/pajak/pphBadan";
 import { bacaParams } from "@/lib/prefill";
 
 export default function KalkulatorPPhBadan(): JSX.Element {
