@@ -1,6 +1,6 @@
 import { hitungPasal17 } from "./pph21";
 import { hitungPPhBadan } from "./pphBadan";
-import { hitungUMKM, type JenisWPUMKM } from "../../core/pajak/umkm";
+import { hitungUMKM, type JenisWPUMKM } from "./umkm";
 import { PTKP, type StatusPTKP } from "./ter";
 
 /**
@@ -19,7 +19,7 @@ export interface HasilBanding {
   pajakUmum: number;
   hemat: number; // positif = UMKM lebih hemat
   rekomendasi: "umkm" | "umum" | "seimbang";
-  /** Margin laba (%) di mana kedua skema menghasilkan pajak sama. */
+  /** Margin laba (%) tertinggi di mana pajak umum belum melebihi pajak UMKM; null bila tidak pernah melebihi. */
   marginImpasPersen: number | null;
 }
 
@@ -69,8 +69,11 @@ export function bandingkan(
 }
 
 /**
- * Cari margin impas dengan bisection: pajak umum naik monoton terhadap margin,
- * pajak UMKM tetap, sehingga titik potongnya (jika ada) unik.
+ * Cari margin impas: margin tertinggi di mana pajak umum belum melebihi pajak
+ * UMKM. Pajak umum naik monoton terhadap margin dan pajak UMKM tetap, jadi
+ * bisection pada `umum <= target` menemukannya. Saat pajak UMKM nol (OP omzet
+ * ≤ 500 jt), keduanya sama nol sampai laba melewati PTKP, dan impas adalah
+ * titik itu, bukan 0. `null` bila pajak umum tidak pernah lebih mahal.
  */
 export function cariMarginImpas(
   jenis: JenisWPUMKM,
@@ -86,13 +89,14 @@ export function cariMarginImpas(
 
   let lo = 0;
   let hi = 100;
-  if (pajakUmumPadaMargin(hi) < target) return null; // umum selalu lebih murah
+  if (pajakUmumPadaMargin(hi) <= target) return null; // umum tidak pernah lebih mahal
   if (pajakUmumPadaMargin(lo) > target) return 0;
 
   for (let i = 0; i < 60; i++) {
     const mid = (lo + hi) / 2;
-    if (pajakUmumPadaMargin(mid) < target) lo = mid;
+    if (pajakUmumPadaMargin(mid) <= target) lo = mid;
     else hi = mid;
   }
-  return (lo + hi) / 2;
+  // `lo` selalu memenuhi umum <= target; titik tengah bisa jatuh di sisi lain.
+  return lo;
 }

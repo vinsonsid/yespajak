@@ -12,7 +12,7 @@ import {
   JudulHalaman,
 } from "@/components/ui";
 import { formatPersen, formatRupiah } from "@/lib/format";
-import { hitungPPN } from "@/lib/pajak/ppn";
+import { hitungPPN } from "@/core/pajak/ppn";
 import { bacaParams } from "@/lib/prefill";
 
 function TombolPilihan<T extends string>({

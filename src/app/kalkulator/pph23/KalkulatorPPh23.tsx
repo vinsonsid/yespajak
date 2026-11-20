@@ -17,7 +17,7 @@ import {
   OBJEK_PPH23,
   type ObjekPPh23,
   hitungPPh23,
-} from "@/lib/pajak/pph23";
+} from "@/core/pajak/pph23";
 
 const SEMUA_OBJEK = Object.keys(OBJEK_PPH23) as ObjekPPh23[];
 

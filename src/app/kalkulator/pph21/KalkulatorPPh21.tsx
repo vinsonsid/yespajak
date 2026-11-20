@@ -15,8 +15,8 @@ import { formatPersen, formatRupiah } from "@/lib/format";
 import {
   hitungPPh21Bulanan,
   hitungPPh21Tahunan,
-} from "@/lib/pajak/pph21";
-import { PTKP, type StatusPTKP } from "@/lib/pajak/ter";
+} from "@/core/pajak/pph21";
+import { PTKP, type StatusPTKP } from "@/core/pajak/ter";
 import { bacaParams } from "@/lib/prefill";
 
 const SEMUA_STATUS: StatusPTKP[] = [

@@ -2,7 +2,7 @@
 // (halaman /kalkulator/umkm-vs-tarif-umum). Jalur nyata: lib/perbandingan
 // memanggil core/pajak/umkm, tanpa mock.
 import { describe, expect, it } from "vitest";
-import { bandingkan } from "../../src/lib/pajak/perbandingan";
+import { bandingkan } from "../../src/core/pajak/perbandingan";
 
 describe("use case: bandingkan UMKM 0,5% vs tarif umum", () => {
   it("AC1: pajak UMKM pada perbandingan sama dengan hasil core (orang pribadi, omzet 1 miliar)", () => {
