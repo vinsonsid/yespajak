@@ -109,19 +109,20 @@ describe("cariMarginImpas", () => {
 
   // Definisi AC5: pada margin impas pajak umum belum melebihi UMKM; sedikit di atasnya sudah.
   it.each([
-    ["orang-pribadi", 1_000_000_000],
-    ["orang-pribadi", 100_000_000],
-    ["orang-pribadi", 54_001_000],
-    ["orang-pribadi", 500_000_000],
-    ["orang-pribadi", 500_001_000],
-    ["badan", 1_000_000_000],
-    ["badan", 5_000_000_000],
-    ["badan", 60_000_000_000],
-  ] as const)("AC5 definisi: %s omzet %i — umum ≤ UMKM pada impas, > UMKM pada impas + 0,0001", (jenis, omzet) => {
-    const m = cariMarginImpas(jenis, omzet, "TK/0");
+    ["orang-pribadi", 1_000_000_000, "TK/0"],
+    ["orang-pribadi", 100_000_000, "TK/0"],
+    ["orang-pribadi", 100_000_000, "K/3"],
+    ["orang-pribadi", 54_001_000, "TK/0"],
+    ["orang-pribadi", 500_000_000, "TK/0"],
+    ["orang-pribadi", 500_001_000, "TK/0"],
+    ["badan", 1_000_000_000, "TK/0"],
+    ["badan", 5_000_000_000, "TK/0"],
+    ["badan", 60_000_000_000, "TK/0"],
+  ] as const)("AC5 definisi: %s omzet %i %s — umum ≤ UMKM pada impas, > UMKM pada impas + 0,0001", (jenis, omzet, status) => {
+    const m = cariMarginImpas(jenis, omzet, status);
     expect(m).not.toBeNull();
-    const pada = bandingkan(jenis, omzet, m!, "TK/0");
-    const atas = bandingkan(jenis, omzet, (m!) + 0.0001, "TK/0");
+    const pada = bandingkan(jenis, omzet, m!, status);
+    const atas = bandingkan(jenis, omzet, (m!) + 0.0001, status);
     expect(pada.pajakUmum).toBeLessThanOrEqual(pada.pajakUMKM);
     expect(atas.pajakUmum).toBeGreaterThan(atas.pajakUMKM);
   });
