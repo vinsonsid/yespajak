@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Card, JudulHalaman } from "@/components/ui";
@@ -81,7 +82,7 @@ const GLOSARIUM: [string, string][] = [
   ["PPnBM", "Pajak Penjualan atas Barang Mewah — dikenakan di samping PPN untuk barang tergolong mewah."],
 ];
 
-export default function Edukasi() {
+export default function Edukasi(): JSX.Element {
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <JudulHalaman

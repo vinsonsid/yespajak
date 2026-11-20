@@ -1,4 +1,4 @@
-import { PTKP, StatusPTKP, kategoriTER, tarifTERBulanan } from "./ter";
+import { PTKP, type StatusPTKP, kategoriTER, tarifTERBulanan } from "./ter";
 
 /**
  * Lapisan tarif progresif Pasal 17 ayat (1) huruf a UU PPh

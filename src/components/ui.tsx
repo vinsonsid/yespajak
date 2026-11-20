@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { JSX, ReactNode } from "react";
 import { formatRupiah } from "@/lib/format";
 
 export function Card({
@@ -7,7 +7,7 @@ export function Card({
 }: {
   children: ReactNode;
   className?: string;
-}) {
+}): JSX.Element {
   return (
     <div
       className={`rounded-2xl border border-slate-200 bg-white p-6 shadow-sm ${className}`}
@@ -27,7 +27,7 @@ export function BarisHasil({
   nilai: number;
   tebal?: boolean;
   minus?: boolean;
-}) {
+}): JSX.Element {
   return (
     <div
       className={`flex items-baseline justify-between gap-4 py-1.5 ${
@@ -51,7 +51,7 @@ export function HasilUtama({
   label: string;
   nilai: string;
   keterangan?: string;
-}) {
+}): JSX.Element {
   return (
     <div className="rounded-xl bg-sky-900 px-5 py-4 text-white">
       <p className="text-sm font-medium text-sky-200">{label}</p>
@@ -61,7 +61,7 @@ export function HasilUtama({
   );
 }
 
-export function CatatanInfo({ children }: { children: ReactNode }) {
+export function CatatanInfo({ children }: { children: ReactNode }): JSX.Element {
   return (
     <div className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
       {children}
@@ -77,7 +77,7 @@ export function JudulHalaman({
   eyebrow: string;
   judul: string;
   deskripsi: string;
-}) {
+}): JSX.Element {
   return (
     <header className="mb-8">
       <p className="text-sm font-semibold uppercase tracking-wide text-sky-700">

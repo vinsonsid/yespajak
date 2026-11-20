@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { type JSX, useEffect, useState } from "react";
 import RupiahInput from "@/components/RupiahInput";
 import ShareBar from "@/components/ShareBar";
 import {
@@ -14,9 +14,10 @@ import {
 import { formatPersen, formatRupiah } from "@/lib/format";
 import {
   BATAS_OMZET_UMKM,
-  JenisWPUMKM,
+  type HasilUMKM,
+  type JenisWPUMKM,
   hitungUMKM,
-} from "@/lib/pajak/umkm";
+} from "@/core/pajak/umkm";
 import { bacaParams } from "@/lib/prefill";
 
 const JENIS_WP: [JenisWPUMKM, string, string][] = [
@@ -37,7 +38,16 @@ const JENIS_WP: [JenisWPUMKM, string, string][] = [
   ],
 ];
 
-export default function KalkulatorUMKM() {
+const HASIL_KOSONG: HasilUMKM = {
+  omzetSetahun: 0,
+  melebihiBatas: false,
+  omzetBebas: 0,
+  omzetKenaPajak: 0,
+  pphFinal: 0,
+  tarifEfektifPersen: 0,
+};
+
+export default function KalkulatorUMKM(): JSX.Element {
   const [jenis, setJenis] = useState<JenisWPUMKM>("orang-pribadi");
   const [omzet, setOmzet] = useState(0);
 
@@ -47,11 +57,12 @@ export default function KalkulatorUMKM() {
         if (["orang-pribadi", "pt-perorangan", "badan"].includes(v))
           setJenis(v as JenisWPUMKM);
       },
-      omzet: (v) => setOmzet(Number(v) || 0),
+      omzet: (v) => { setOmzet(Math.max(Number(v) || 0, 0)); },
     });
   }, []);
 
-  const hasil = hitungUMKM(jenis, omzet);
+  const perhitungan = hitungUMKM(jenis, omzet);
+  const hasil = perhitungan.ok ? perhitungan.value : HASIL_KOSONG;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -74,7 +85,7 @@ export default function KalkulatorUMKM() {
                   <button
                     key={nilai}
                     type="button"
-                    onClick={() => setJenis(nilai)}
+                    onClick={() => { setJenis(nilai); }}
                     aria-pressed={jenis === nilai}
                     className={`w-full rounded-lg border px-3 py-2.5 text-left transition ${
                       jenis === nilai

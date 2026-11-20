@@ -187,5 +187,6 @@ export function tarifTERBulanan(
   for (const [batasAtas, tarif] of tabel) {
     if (brutoSebulan <= batasAtas) return tarif;
   }
-  return tabel[tabel.length - 1][1];
+  const terakhir = tabel[tabel.length - 1];
+  return terakhir === undefined ? 0 : terakhir[1];
 }

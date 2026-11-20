@@ -1,5 +1,6 @@
 "use client";
 
+import type { JSX } from "react";
 import { useState } from "react";
 
 /**
@@ -10,7 +11,7 @@ export default function ShareBar({
   params,
 }: {
   params: Record<string, string | number>;
-}) {
+}): JSX.Element {
   const [disalin, setDisalin] = useState(false);
 
   async function salin() {
@@ -20,7 +21,7 @@ export default function ShareBar({
     }
     await navigator.clipboard.writeText(url.toString());
     setDisalin(true);
-    setTimeout(() => setDisalin(false), 2000);
+    setTimeout(() => { setDisalin(false); }, 2000);
   }
 
   const gaya =
@@ -28,10 +29,10 @@ export default function ShareBar({
 
   return (
     <div className="flex flex-wrap gap-2 print:hidden">
-      <button type="button" onClick={salin} className={gaya}>
+      <button type="button" onClick={() => { void salin(); }} className={gaya}>
         {disalin ? "✓ Tautan disalin!" : "🔗 Salin tautan hasil"}
       </button>
-      <button type="button" onClick={() => window.print()} className={gaya}>
+      <button type="button" onClick={() => { window.print(); }} className={gaya}>
         🖨️ Cetak / Simpan PDF
       </button>
     </div>

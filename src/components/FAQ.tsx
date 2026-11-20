@@ -1,10 +1,11 @@
+import type { JSX } from "react";
 export interface ItemFAQ {
   q: string;
   a: string;
 }
 
 /** Bagian FAQ dengan markup FAQPage (schema.org) untuk rich results. */
-export default function FAQ({ items }: { items: ItemFAQ[] }) {
+export default function FAQ({ items }: { items: ItemFAQ[] }): JSX.Element {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
