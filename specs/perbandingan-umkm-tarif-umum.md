@@ -29,10 +29,17 @@ Given OP TK/0, omzet 1 M (ambang 500 rb)
 Given badan, omzet 1 jt (ambang minimal 1.000, bukan 500), margin 5,2727…% → hemat ≈ 800 → `seimbang`
 
 ### AC5: margin impas
-- OP TK/0 omzet 1 M → 10,4 (PKP 50 jt × 5% = 2,5 jt)
+Margin impas = margin tertinggi di mana pajak umum belum melebihi pajak UMKM. Di atasnya skema UMKM lebih hemat. `null` bila pajak umum tidak pernah lebih mahal pada margin 0–100%.
+- OP TK/0 omzet 1 M → 10,4001% (PKP dibulatkan per 1.000, jadi pajak sama 2,5 jt pada margin 10,4%–10,4001%; impas = ujung atasnya; UI menampilkan ≈ 10,4%)
 - Badan omzet 1 M → 50/11 ≈ 4,545% (11% × laba = 5 jt → laba 45,45 jt)
-- OP omzet ≤ 500 jt (pajak UMKM 0) → 0
+- OP omzet ≤ 500 jt (pajak UMKM 0) → margin saat laba mencapai PTKP + 1.000: TK/0 omzet 100 jt → 54,001%; 400 jt → 13,50025%; K/3 omzet 100 jt → 72,001%
+- OP omzet < PTKP + 1.000 (pajak umum 0 di margin berapa pun) → `null`
 - Omzet ≤ 0 → `null`
+
+#### Tabel batas (OP TK/0, PTKP 54 jt)
+| Input | Di bawah | Tepat | Di atas | Pembulatan |
+|---|---|---|---|---|
+| omzet vs PTKP + 1.000 | 54.000.999 → `null` | 54.001.000 → 100% | 54.001.001 → 54.001.000 / 54.001.001 × 100% | PKP floor per 1.000 |
 
 ### AC6: input omzet tidak valid (negatif) tidak melempar
 Given OP omzet −5 jt
@@ -44,7 +51,8 @@ Then `bandingkan` tetap menghitung pajak UMKM 22,5 jt (0,5% × 4,5 M) dan pajak 
 
 ## Edge cases and failure modes
 - Titik impas unik karena pajak umum naik monoton terhadap margin dan pajak UMKM tetap.
-- Untuk omzet > 0 titik potong selalu ada di [0, 100]: pajak umum pada margin 0 selalu 0 ≤ target, dan pada margin 100% selalu ≥ target (OP: ≥ 5% × (omzet − PTKP) > 0,5% × (omzet − 500 jt); badan: ≥ 11% × omzet > 0,5% × omzet). Dua cabang penjaga di `cariMarginImpas` (`return null` bila umum selalu lebih murah, `return 0` bila umum sudah lebih mahal pada margin 0) karena itu tidak pernah tercapai; dibiarkan sebagai pertahanan dan dikecualikan dari target mutasi.
+- Pajak umum pada margin 0 selalu 0, jadi tidak pernah melebihi target: penjaga `return 0` di `cariMarginImpas` tidak tercapai, dibiarkan sebagai pertahanan (keputusan menghapusnya ada di tangan Vinson).
+- Penjaga `return null` **tercapai**: OP dengan omzet < PTKP + 1.000 membayar pajak umum 0 di margin berapa pun. Versi sebelumnya spec ini menyebut penjaga ini tak tercapai dan AC5 meminta impas 0 untuk OP omzet ≤ 500 jt; keduanya keliru (UI menampilkan "≈ 0,0%" padahal kedua skema sama nol sampai margin PTKP/omzet). Ditemukan 2026-11-20 lewat mutant `<` → `<=` yang selamat di baris ini.
 
 ## Out of scope
 - Status PTKP untuk PT Perorangan/badan (diabaikan).

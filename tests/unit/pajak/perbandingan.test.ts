@@ -52,7 +52,8 @@ describe("bandingkan", () => {
   });
 
   it("AC5: marginImpasPersen ikut dalam hasil", () => {
-    expect(bandingkan("orang-pribadi", 1_000_000_000, 20).marginImpasPersen).toBeCloseTo(10.4, 6);
+    // PKP dibulatkan per 1.000: pajak sama pada margin 10,4%–10,4001%; impas = ujung atasnya.
+    expect(bandingkan("orang-pribadi", 1_000_000_000, 20).marginImpasPersen).toBeCloseTo(10.4001, 6);
   });
 
   it("AC7: omzet di atas 4,8 M tetap dihitung; UI yang menandai skema final tidak tersedia", () => {
@@ -70,12 +71,12 @@ describe("bandingkan", () => {
 });
 
 describe("cariMarginImpas", () => {
-  it("AC5: OP TK/0 omzet 1 M → 10,4%", () => {
-    expect(cariMarginImpas("orang-pribadi", 1_000_000_000, "TK/0")).toBeCloseTo(10.4, 6);
+  it("AC5: OP TK/0 omzet 1 M → 10,4001% (laba 104.001.000, PKP 50 jt)", () => {
+    expect(cariMarginImpas("orang-pribadi", 1_000_000_000, "TK/0")).toBeCloseTo(10.4001, 6);
   });
 
   it("AC5: status PTKP default TK/0 bila tidak diberikan", () => {
-    expect(cariMarginImpas("orang-pribadi", 1_000_000_000)).toBeCloseTo(10.4, 6);
+    expect(cariMarginImpas("orang-pribadi", 1_000_000_000)).toBeCloseTo(10.4001, 6);
     expect(bandingkan("orang-pribadi", 1_000_000_000, 20).pajakUmum).toBe(15_900_000);
   });
 
@@ -83,8 +84,30 @@ describe("cariMarginImpas", () => {
     expect(cariMarginImpas("badan", 1_000_000_000)).toBeCloseTo(50 / 11, 6);
   });
 
-  it("AC5: OP omzet ≤ 500 jt (pajak UMKM nol) → 0", () => {
-    expect(cariMarginImpas("orang-pribadi", 400_000_000)).toBeCloseTo(0, 9);
+  // Pajak UMKM OP nol sampai omzet 500 jt, jadi impas = margin saat pajak umum
+  // mulai > 0: laba ≥ PTKP + 1.000 (PKP dibulatkan ke bawah per 1.000).
+  it.each([
+    [100_000_000, "TK/0", 54.001],
+    [400_000_000, "TK/0", 13.50025],
+    [100_000_000, "K/3", 72.001],
+  ] as const)("AC5: OP omzet %i %s (pajak UMKM nol) → impas %s%%", (omzet, status, impas) => {
+    expect(cariMarginImpas("orang-pribadi", omzet, status)).toBeCloseTo(impas, 6);
+  });
+
+  it("AC5 batas: OP TK/0 omzet 54.000.999 (laba maks di bawah PTKP + 1.000) → null", () => {
+    expect(cariMarginImpas("orang-pribadi", 54_000_999, "TK/0")).toBeNull();
+  });
+
+  it.each([
+    [54_001_000, 100],
+    [54_001_001, (54_001_000 / 54_001_001) * 100],
+  ] as const)("AC5 batas: OP TK/0 omzet %i → impas %s%%", (omzet, impas) => {
+    expect(cariMarginImpas("orang-pribadi", omzet, "TK/0")).toBeCloseTo(impas, 6);
+  });
+
+  it("AC5: OP omzet di bawah PTKP → null (pajak umum nol di margin berapa pun)", () => {
+    expect(cariMarginImpas("orang-pribadi", 30_000_000, "TK/0")).toBeNull();
+    expect(bandingkan("orang-pribadi", 30_000_000, 100, "TK/0").marginImpasPersen).toBeNull();
   });
 
   it("AC5: omzet nol atau negatif → null", () => {
