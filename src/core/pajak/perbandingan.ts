@@ -19,7 +19,7 @@ export interface HasilBanding {
   pajakUmum: number;
   hemat: number; // positif = UMKM lebih hemat
   rekomendasi: "umkm" | "umum" | "seimbang";
-  /** Margin laba (%) di mana kedua skema menghasilkan pajak sama. */
+  /** Margin laba (%) tertinggi di mana pajak umum belum melebihi pajak UMKM; null bila tidak pernah melebihi. */
   marginImpasPersen: number | null;
 }
 
@@ -97,5 +97,6 @@ export function cariMarginImpas(
     if (pajakUmumPadaMargin(mid) <= target) lo = mid;
     else hi = mid;
   }
-  return (lo + hi) / 2;
+  // `lo` selalu memenuhi umum <= target; titik tengah bisa jatuh di sisi lain.
+  return lo;
 }

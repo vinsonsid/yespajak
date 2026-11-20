@@ -71,7 +71,7 @@ describe("bandingkan", () => {
 });
 
 describe("cariMarginImpas", () => {
-  it("AC5: OP TK/0 omzet 1 M → 10,4001% (laba 104.001.000, PKP 50 jt)", () => {
+  it("AC5: OP TK/0 omzet 1 M → 10,4001% (batas atas terbuka: laba 104.001.000 sudah ber-PKP 50.001.000)", () => {
     expect(cariMarginImpas("orang-pribadi", 1_000_000_000, "TK/0")).toBeCloseTo(10.4001, 6);
   });
 
@@ -101,8 +101,37 @@ describe("cariMarginImpas", () => {
   it.each([
     [54_001_000, 100],
     [54_001_001, (54_001_000 / 54_001_001) * 100],
+    [500_000_000, 10.8002],
+    [500_001_000, 10.800178399643201],
   ] as const)("AC5 batas: OP TK/0 omzet %i → impas %s%%", (omzet, impas) => {
     expect(cariMarginImpas("orang-pribadi", omzet, "TK/0")).toBeCloseTo(impas, 6);
+  });
+
+  // Definisi AC5: pada margin impas pajak umum belum melebihi UMKM; sedikit di atasnya sudah.
+  it.each([
+    ["orang-pribadi", 1_000_000_000],
+    ["orang-pribadi", 100_000_000],
+    ["orang-pribadi", 54_001_000],
+    ["orang-pribadi", 500_000_000],
+    ["orang-pribadi", 500_001_000],
+    ["badan", 1_000_000_000],
+    ["badan", 5_000_000_000],
+    ["badan", 60_000_000_000],
+  ] as const)("AC5 definisi: %s omzet %i — umum ≤ UMKM pada impas, > UMKM pada impas + 0,0001", (jenis, omzet) => {
+    const m = cariMarginImpas(jenis, omzet, "TK/0");
+    expect(m).not.toBeNull();
+    const pada = bandingkan(jenis, omzet, m!, "TK/0");
+    const atas = bandingkan(jenis, omzet, (m!) + 0.0001, "TK/0");
+    expect(pada.pajakUmum).toBeLessThanOrEqual(pada.pajakUMKM);
+    expect(atas.pajakUmum).toBeGreaterThan(atas.pajakUMKM);
+  });
+
+  it.each([
+    ["badan", 5_000_000_000, 4.37062937062937], // 31E parsial
+    ["badan", 60_000_000_000, 2.2727272727272734], // di atas 50 M: 22% penuh
+    ["pt-perorangan", 1_000_000_000, 50 / 11],
+  ] as const)("AC5: %s omzet %i → impas %s%%", (jenis, omzet, impas) => {
+    expect(cariMarginImpas(jenis, omzet)).toBeCloseTo(impas, 6);
   });
 
   it("AC5: OP omzet di bawah PTKP → null (pajak umum nol di margin berapa pun)", () => {

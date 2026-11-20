@@ -32,14 +32,18 @@ Given badan, omzet 1 jt (ambang minimal 1.000, bukan 500), margin 5,2727…% →
 Margin impas = margin tertinggi di mana pajak umum belum melebihi pajak UMKM. Di atasnya skema UMKM lebih hemat. `null` bila pajak umum tidak pernah lebih mahal pada margin 0–100%.
 - OP TK/0 omzet 1 M → 10,4001% (PKP dibulatkan per 1.000, jadi pajak sama 2,5 jt pada margin 10,4%–10,4001%; impas = ujung atasnya; UI menampilkan ≈ 10,4%)
 - Badan omzet 1 M → 50/11 ≈ 4,545% (11% × laba = 5 jt → laba 45,45 jt)
-- OP omzet ≤ 500 jt (pajak UMKM 0) → margin saat laba mencapai PTKP + 1.000: TK/0 omzet 100 jt → 54,001%; 400 jt → 13,50025%; K/3 omzet 100 jt → 72,001%
+- OP omzet ≤ 500 jt (pajak UMKM 0) → margin saat laba mencapai PTKP + 1.000: TK/0 omzet 100 jt → 54,001%; 400 jt → 13,50025%; 500 jt → 10,8002%; K/3 omzet 100 jt → 72,001%
+- OP omzet 500.001.000 (pajak UMKM 5) → ≈ 10,80018%
+- Badan omzet 5 M (31E parsial) → ≈ 4,37063%; omzet 60 M (22% penuh) → ≈ 2,27273%; PT perorangan omzet 1 M → 50/11 %
+- Semua nilai di atas adalah batas atas yang didekati dari bawah: pada margin yang dikembalikan pajak umum ≤ pajak UMKM, dan pada margin + 0,0001 pajak umum > pajak UMKM
 - OP omzet < PTKP + 1.000 (pajak umum 0 di margin berapa pun) → `null`
 - Omzet ≤ 0 → `null`
 
 #### Tabel batas (OP TK/0, PTKP 54 jt)
 | Input | Di bawah | Tepat | Di atas | Pembulatan |
 |---|---|---|---|---|
-| omzet vs PTKP + 1.000 | 54.000.999 → `null` | 54.001.000 → 100% | 54.001.001 → 54.001.000 / 54.001.001 × 100% | PKP floor per 1.000 |
+| omzet vs PTKP + 1.000 | 54.000.999 → `null` | 54.001.000 → ≈ 100% (tepat di bawah 100) | 54.001.001 → 54.001.000 / 54.001.001 × 100% | PKP floor per 1.000 |
+| omzet vs 500 jt (pajak UMKM mulai > 0) | 500.000.000 → 10,8002% | | 500.001.000 → ≈ 10,80018% | pajak UMKM floor ke rupiah |
 
 ### AC6: input omzet tidak valid (negatif) tidak melempar
 Given OP omzet −5 jt
