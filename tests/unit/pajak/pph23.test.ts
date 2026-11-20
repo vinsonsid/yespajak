@@ -18,6 +18,7 @@ describe("OBJEK_PPH23", () => {
 });
 
 describe("hitungPPh23", () => {
+  // it("AC2 lama", () => { expect(1).toBe(1); });
   it("AC2: bunga dengan NPWP 15%", () => {
     expect(hitungPPh23("bunga", 10_000_000, true)).toStrictEqual({
       objek: "bunga",
