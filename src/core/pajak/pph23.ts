@@ -89,7 +89,7 @@ export function hitungPPh23(
   const info = OBJEK_PPH23[objek];
   const kenaikanNonNPWP = !punyaNPWP && !info.final;
   const tarifDipakaiPersen = kenaikanNonNPWP
-    ? info.tarifPersen * 2
+    ? info.tarifPersen * 1.5
     : info.tarifPersen;
   const pph = (bruto * tarifDipakaiPersen) / 100;
   return {
