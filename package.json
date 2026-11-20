@@ -22,7 +22,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@jangkar/testing-engines": "github:vinsonsid/jangkar-testing-engines#v0.5.0",
+    "@jangkar/testing-engines": "github:vinsonsid/jangkar-testing-engines#v0.6.0",
     "@stryker-mutator/core": "^10.0.0",
     "@stryker-mutator/vitest-runner": "^10.0.0",
     "@tailwindcss/postcss": "^4",

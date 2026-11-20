@@ -15,5 +15,5 @@ concurrency:
 
 jobs:
   quality-gate:
-    uses: vinsonsid/jangkar-testing-engines/.github/workflows/quality-gate.yml@v0.5.0
+    uses: vinsonsid/jangkar-testing-engines/.github/workflows/quality-gate.yml@v0.6.0
     secrets: inherit
