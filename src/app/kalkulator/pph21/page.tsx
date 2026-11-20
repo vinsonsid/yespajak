@@ -29,11 +29,24 @@ export default function Page(): JSX.Element {
             q: "Berapa gaji minimal yang kena PPh 21?",
             a: "Dengan TER, gaji bruto sampai Rp5,4 juta sebulan (kategori A) tidak dipotong pajak. Secara tahunan, penghasilan neto di bawah PTKP (mulai Rp54 juta setahun untuk TK/0) tidak dikenai PPh.",
           },
+          {
+            q: "Apa itu PPh 21 DTP dan siapa yang mendapatkannya?",
+            a: "PPh 21 Ditanggung Pemerintah (DTP): untuk masa Januari–Desember 2026, PPh 21 karyawan di sektor alas kaki, tekstil dan pakaian jadi, furnitur, kulit dan barang dari kulit, serta pariwisata dengan gaji bruto sampai Rp10 juta sebulan ditanggung pemerintah (PMK 10/2025 jo. PMK 105/2025). Pemberi kerja tetap menghitung PPh 21 seperti biasa, tetapi tidak memotongnya dari gaji — jumlahnya dibayarkan tunai kepada karyawan. Kalkulator ini menampilkan PPh 21 sebelum fasilitas DTP.",
+          },
+          {
+            q: "Kapan batas setor dan lapor PPh 21?",
+            a: "Sejak 1 Januari 2025 (PMK 81/2024), PPh 21 yang dipotong wajib disetor paling lambat tanggal 15 bulan berikutnya, dan SPT Masa PPh 21/26 dilaporkan melalui Coretax paling lambat tanggal 20 bulan berikutnya.",
+          },
         ]}
       />
       <DasarHukum
-        peraturan={["PP 58/2023 (TER)", "UU PPh Pasal 17 & 21", "PMK 168/2023"]}
-        diverifikasi="1 September 2026"
+        peraturan={[
+          "PP 58/2023 (TER)",
+          "UU PPh Pasal 17 & 21",
+          "PMK 168/2023",
+          "PMK 81/2024",
+          "PMK 10/2025 jo. PMK 105/2025 (DTP)",
+        ]}
       />
     </>
   );

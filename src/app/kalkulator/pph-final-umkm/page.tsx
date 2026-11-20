@@ -37,7 +37,6 @@ export default function Page(): JSX.Element {
           "SE-20/PJ/2022",
           "UU HPP Pasal 7 ayat (2a)",
         ]}
-        diverifikasi="1 September 2026"
       />
     </>
   );

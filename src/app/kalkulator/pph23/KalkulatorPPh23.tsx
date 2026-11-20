@@ -148,7 +148,7 @@ export default function KalkulatorPPh23(): JSX.Element {
           />
           <CatatanInfo>
             Pemotong wajib membuat bukti potong unifikasi melalui Coretax,
-            menyetor paling lambat tanggal 10 bulan berikutnya, dan melaporkan
+            menyetor paling lambat tanggal 15 bulan berikutnya, dan melaporkan
             paling lambat tanggal 20. Dividen tidak dihitung di sini: dividen
             dalam negeri untuk WP badan dikecualikan dari objek PPh, dan untuk
             orang pribadi bebas pajak jika diinvestasikan kembali (jika tidak,

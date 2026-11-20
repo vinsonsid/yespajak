@@ -12,12 +12,12 @@ export const metadata: Metadata = {
 const KEWAJIBAN_BULANAN = [
   {
     jenis: "PPh Pasal 21/26 (gaji karyawan)",
-    setor: "Tanggal 10 bulan berikutnya",
+    setor: "Tanggal 15 bulan berikutnya",
     lapor: "Tanggal 20 bulan berikutnya",
   },
   {
     jenis: "PPh Pasal 23/26, PPh Pasal 4 ayat (2) — bupot unifikasi",
-    setor: "Tanggal 10 bulan berikutnya",
+    setor: "Tanggal 15 bulan berikutnya",
     lapor: "Tanggal 20 bulan berikutnya",
   },
   {
@@ -123,7 +123,10 @@ export default function KalenderPajak(): JSX.Element {
           >
             coretaxdjp.pajak.go.id
           </a>
-          . Sanksi keterlambatan lapor SPT Masa: Rp100.000–Rp500.000 per SPT;
+          . Sejak 1 Januari 2025, PMK 81/2024 menyeragamkan batas setor PPh
+          masa (Pasal 4 ayat (2), 15, 21, 22, 23, 25, 26) menjadi tanggal 15
+          bulan berikutnya. Sanksi keterlambatan lapor SPT Masa:
+          Rp100.000–Rp500.000 per SPT;
           keterlambatan setor dikenai bunga sanksi administrasi per bulan.
         </CatatanInfo>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import type { JSX } from "react";
+import Link from "next/link";
 import { useState } from "react";
 import { Card, CatatanInfo, JudulHalaman } from "@/components/ui";
 import { formatPersen, formatRupiah, parseRupiah } from "@/lib/format";
@@ -245,11 +246,14 @@ export default function PayrollPPh21(): JSX.Element {
             <CatatanInfo>
               Perhitungan memakai TER bulanan (masa Januari–November). Untuk
               masa Desember, gunakan perhitungan setahun di{" "}
-              <a className="font-semibold underline" href="/kalkulator/pph21">
+              <Link className="font-semibold underline" href="/kalkulator/pph21">
                 Kalkulator PPh 21
-              </a>{" "}
-              per karyawan. Setor hasil potongan paling lambat tanggal 10 bulan
-              berikutnya melalui Coretax.
+              </Link>{" "}
+              per karyawan. Setor hasil potongan paling lambat tanggal 15 bulan
+              berikutnya melalui Coretax. Karyawan di sektor alas kaki, tekstil,
+              furnitur, kulit, dan pariwisata dengan gaji sampai Rp10 juta
+              sebulan mendapat PPh 21 DTP sepanjang 2026 — potongannya
+              ditanggung pemerintah.
             </CatatanInfo>
           </div>
         </div>
