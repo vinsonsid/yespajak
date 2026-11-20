@@ -1,11 +1,13 @@
 import type { JSX } from "react";
+import { TANGGAL_VERIFIKASI } from "@/lib/site";
+
 /** Baris kepercayaan: dasar hukum + tanggal verifikasi terakhir kalkulator. */
 export default function DasarHukum({
   peraturan,
-  diverifikasi,
+  diverifikasi = TANGGAL_VERIFIKASI,
 }: {
   peraturan: string[];
-  diverifikasi: string; // mis. "1 September 2026"
+  diverifikasi?: string;
 }): JSX.Element {
   return (
     <div className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">

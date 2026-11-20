@@ -36,8 +36,8 @@ export default function Page(): JSX.Element {
           "UU PPh Pasal 23 & Pasal 4 ayat (2)",
           "PMK 141/PMK.03/2015",
           "PP 34/2017 (sewa tanah/bangunan)",
+          "PMK 81/2024",
         ]}
-        diverifikasi="1 September 2026"
       />
     </>
   );

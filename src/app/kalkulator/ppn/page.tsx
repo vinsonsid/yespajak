@@ -33,7 +33,6 @@ export default function Page(): JSX.Element {
       />
       <DasarHukum
         peraturan={["UU PPN jo. UU HPP", "PMK 131/2024"]}
-        diverifikasi="1 September 2026"
       />
     </>
   );

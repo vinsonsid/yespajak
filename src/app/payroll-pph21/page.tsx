@@ -32,8 +32,7 @@ export default function Page(): JSX.Element {
         ]}
       />
       <DasarHukum
-        peraturan={["PP 58/2023 (TER)", "UU PPh Pasal 21", "PMK 168/2023"]}
-        diverifikasi="1 September 2026"
+        peraturan={["PP 58/2023 (TER)", "UU PPh Pasal 21", "PMK 168/2023", "PMK 81/2024", "PMK 10/2025 jo. PMK 105/2025 (DTP)"]}
       />
     </>
   );
